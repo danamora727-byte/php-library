@@ -1,0 +1,713 @@
+/* ==========================================================================
+   Library System - stylesheet
+
+   1.  Design tokens
+   2.  Base and reset
+   3.  App layout (top bar, sidebar, main)
+   4.  Typography
+   5.  Buttons
+   6.  Forms and search bar
+   7.  Cards and dashboard stats
+   8.  Tables
+   9.  Badges and small utilities
+   10. Dialog and toast
+   11. Responsive
+   12. Reduced motion
+   ========================================================================== */
+
+
+/* 1. Design tokens
+   -------------------------------------------------------------------------- */
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg: #080d17;
+  --surface: #101827;
+  --surface-raised: #151f31;
+  --surface-hover: #1a2940;
+  --line: #243249;
+
+  /* Text */
+  --text: #edf2fb;
+  --muted: #91a0b8;
+
+  /* Accent and status colors */
+  --accent: #76aef5;
+  --accent-strong: #4388df;
+  --success: #5ad6a0;
+  --danger: #ff7885;
+  --warning: #f4c56b;
+
+  /* Effects */
+  --shadow: 0 18px 48px rgba(0, 0, 0, .2);
+
+  /* Keep content clear of phone notches and home bars */
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+
+/* 2. Base and reset
+   -------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html,
+body {
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 12% -20%, rgba(51, 102, 173, .15), transparent 46%),
+    var(--bg);
+  color: var(--text);
+  font: 15px/1.55 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Icons are inline SVGs drawn with strokes */
+svg {
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+
+/* 3. App layout
+   -------------------------------------------------------------------------- */
+
+/* Top bar */
+.top {
+  height: 72px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 clamp(18px, 4vw, 44px);
+  background: rgba(12, 20, 33, .88);
+  border-bottom: 1px solid rgba(145, 160, 184, .13);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  backdrop-filter: blur(16px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -.04em;
+}
+
+.brand svg {
+  width: 36px;
+  height: 36px;
+  padding: 7px;
+  border-radius: 11px;
+  background: linear-gradient(145deg, #397bc2, #245187);
+  color: white;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  background: var(--surface-raised);
+  color: var(--accent);
+}
+
+.avatar svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Sidebar + content grid */
+.shell {
+  display: grid;
+  grid-template-columns: 236px minmax(0, 1fr);
+  min-height: calc(100vh - 72px);
+}
+
+nav {
+  background: rgba(13, 20, 33, .66);
+  border-right: 1px solid rgba(145, 160, 184, .12);
+  padding: 26px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+nav a {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+  padding: 11px 13px;
+  border-radius: 11px;
+  color: var(--muted);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background .16s, color .16s, transform .16s;
+}
+
+nav a svg {
+  width: 19px;
+  height: 19px;
+  flex: none;
+}
+
+nav a:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+  transform: translateX(2px);
+}
+
+nav a.on {
+  background: linear-gradient(100deg, rgba(67, 136, 223, .22), rgba(67, 136, 223, .08));
+  color: #a9ceff;
+  box-shadow: inset 2px 0 #6da7ee;
+}
+
+nav a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Page content */
+main {
+  padding: clamp(26px, 4vw, 48px);
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Page header with an action button on the right */
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+
+/* 4. Typography
+   -------------------------------------------------------------------------- */
+h1 {
+  font-size: clamp(27px, 3vw, 35px);
+  letter-spacing: -.045em;
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 18px;
+  letter-spacing: -.02em;
+  margin: 32px 0 13px;
+}
+
+/* Subtitle under a page heading */
+.sub {
+  color: var(--muted);
+  margin: 8px 0 26px;
+}
+
+/* Short explanation under a section heading */
+.note {
+  color: var(--muted);
+  font-size: 13px;
+  margin: -4px 0 13px;
+}
+
+
+/* 5. Buttons
+   -------------------------------------------------------------------------- */
+.btn {
+  background: linear-gradient(135deg, #4388df, #316fbb);
+  color: #fff;
+  border: 1px solid rgba(157, 200, 255, .15);
+  border-radius: 10px;
+  padding: 10px 16px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  transition: transform .15s, filter .15s, background .15s;
+  box-shadow: 0 5px 14px rgba(34, 94, 164, .18);
+}
+
+.btn:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Variants */
+.btn.ghost {
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  color: var(--text);
+  box-shadow: none;
+}
+
+.btn.ghost:hover {
+  background: var(--surface-hover);
+}
+
+.btn.danger:hover {
+  border-color: rgba(255, 120, 133, .55);
+  color: var(--danger);
+}
+
+/* Size */
+.btn.sm {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+
+/* 6. Forms and search bar
+   -------------------------------------------------------------------------- */
+input,
+select {
+  width: 100%;
+  background: #0b1320;
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 11px 13px;
+  font: inherit;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #5b97e3;
+  box-shadow: 0 0 0 3px rgba(91, 151, 227, .15);
+}
+
+input::placeholder {
+  color: #697992;
+}
+
+input[type=date]::-webkit-calendar-picker-indicator {
+  filter: invert(.8);
+}
+
+label {
+  display: block;
+  font-weight: 700;
+  font-size: 13px;
+  margin: 16px 0 7px;
+}
+
+label small {
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* Add Borrower form */
+.form {
+  max-width: 600px;
+}
+
+.form .btn {
+  width: 100%;
+  margin-top: 24px;
+  padding: 12px;
+}
+
+.form label:first-child,
+.kg label {
+  margin-top: 0;
+}
+
+/* Add Book form: title, author, copies in one row */
+.kg {
+  display: grid;
+  grid-template-columns: 2fr 2fr 120px;
+  gap: 14px;
+}
+
+#kf .btn {
+  margin-top: 18px;
+}
+
+/* Search and filter bar above tables */
+.tools {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.tools input {
+  flex: 1;
+  min-width: 220px;
+  width: auto;
+}
+
+.tools select {
+  width: 170px;
+}
+
+
+/* 7. Cards and dashboard stats
+   -------------------------------------------------------------------------- */
+.card {
+  background: linear-gradient(145deg, rgba(20, 31, 49, .96), rgba(15, 24, 39, .96));
+  border: 1px solid rgba(145, 160, 184, .16);
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.stat {
+  position: relative;
+  overflow: hidden;
+  padding: 21px 22px;
+}
+
+/* Soft circle in the corner of each stat card */
+.stat:after {
+  content: '';
+  position: absolute;
+  width: 82px;
+  height: 82px;
+  right: -24px;
+  top: -25px;
+  border-radius: 50%;
+  background: rgba(92, 156, 234, .08);
+}
+
+.stat b {
+  display: block;
+  font-size: 34px;
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -.05em;
+}
+
+.stat span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+/* Third stat (Overdue) uses the warning color */
+.stat:nth-child(3) b {
+  color: var(--warning);
+}
+
+
+/* 8. Tables
+   -------------------------------------------------------------------------- */
+/* Scrollable wrapper around every table */
+.tw {
+  overflow-x: auto;
+  border: 1px solid rgba(145, 160, 184, .15);
+  border-radius: 13px;
+  background: rgba(16, 24, 39, .85);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th {
+  background: #151f31;
+  text-align: left;
+  padding: 13px 15px;
+  font-weight: 700;
+  white-space: nowrap;
+  color: #aebdd3;
+  letter-spacing: .015em;
+}
+
+td {
+  padding: 13px 15px;
+  border-top: 1px solid rgba(145, 160, 184, .11);
+  vertical-align: middle;
+}
+
+tr:hover td {
+  background: rgba(88, 145, 218, .055);
+}
+
+/* Cell holding the row's action buttons */
+.act {
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* Message row when a table has no data */
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 36px 20px !important;
+}
+
+/* Penalty amount */
+.fee {
+  color: var(--warning);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+
+/* 9. Badges and small utilities
+   -------------------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.bad {
+  background: rgba(255, 120, 133, .13);
+  color: #ff929c;
+}
+
+.ok {
+  background: rgba(90, 214, 160, .12);
+  color: #72e5b2;
+}
+
+.mut {
+  color: var(--muted);
+}
+
+
+/* 10. Dialog and toast
+   -------------------------------------------------------------------------- */
+dialog {
+  background: linear-gradient(145deg, #172337, #101827);
+  color: var(--text);
+  border: 1px solid #30415d;
+  border-radius: 18px;
+  padding: 26px;
+  width: min(480px, 92vw);
+  margin: auto;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .5);
+}
+
+dialog::backdrop {
+  background: rgba(3, 7, 15, .76);
+  backdrop-filter: blur(4px);
+}
+
+dialog h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+/* Two fields side by side (dates in the New Loan dialog) */
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Dialog button row */
+.row {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+  justify-content: flex-end;
+}
+
+#toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  transform: translate(-50%, 18px);
+  background: #1b2940;
+  border: 1px solid #344866;
+  padding: 11px 17px;
+  border-radius: 11px;
+  opacity: 0;
+  transition: .22s;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: var(--shadow);
+  max-width: calc(100vw - 32px);
+  text-align: center;
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+
+/* 11. Responsive
+   -------------------------------------------------------------------------- */
+
+/* Tablet and phone: sidebar becomes a scrolling tab bar */
+@media (max-width: 760px) {
+  .top {
+    height: 62px;
+  }
+
+  .brand {
+    font-size: 17px;
+  }
+
+  .shell {
+    grid-template-columns: 1fr;
+    min-height: calc(100vh - 62px);
+  }
+
+  nav {
+    position: sticky;
+    top: 62px;
+    z-index: 4;
+    flex-direction: row;
+    overflow-x: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 9px 12px;
+    background: rgba(13, 20, 33, .96);
+    scrollbar-width: none;
+  }
+
+  nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  nav a {
+    white-space: nowrap;
+    padding: 9px 12px;
+    font-size: 13px;
+  }
+
+  nav a:hover {
+    transform: none;
+  }
+
+  main {
+    padding: 25px 16px;
+  }
+
+  .sub {
+    margin-bottom: 21px;
+  }
+
+  h2 {
+    margin-top: 27px;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .stat {
+    padding: 17px;
+  }
+
+  .stat b {
+    font-size: 29px;
+  }
+
+  .kg {
+    grid-template-columns: 1fr;
+  }
+
+  #kf .kg {
+    gap: 0;
+  }
+
+  .tools input {
+    min-width: 100%;
+  }
+
+  .tools select {
+    width: 100%;
+  }
+
+  .tw table {
+    min-width: 700px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 420px) {
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat span {
+    font-size: 12px;
+  }
+
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid2 label {
+    margin-top: 12px;
+  }
+
+  .row {
+    flex-direction: column-reverse;
+  }
+
+  .row .btn {
+    width: 100%;
+  }
+}
+
+
+/* 12. Reduced motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
